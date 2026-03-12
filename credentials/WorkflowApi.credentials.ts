@@ -1,5 +1,5 @@
 import type {
-	IAuthenticateGeneric,
+	Icon,
 	ICredentialTestRequest,
 	ICredentialType,
 	INodeProperties,
@@ -35,19 +35,14 @@ export class WorkflowApi implements ICredentialType {
 		},
 	];
 
-	authenticate: IAuthenticateGeneric = {
-		type: 'generic',
-		properties: {},
-	};
+	// Note: authenticate is handled manually in transport.ts
+	// to ensure proper form-urlencoded format
 
 	test: ICredentialTestRequest = {
 		request: {
 			baseURL: '=https://{{$credentials.domain}}/extapi/v1',
 			url: '/workflow/list',
 			method: 'POST',
-			headers: {
-				'Content-Type': 'application/x-www-form-urlencoded',
-			},
 			body: {
 				access_token_v2: '={{$credentials.accessToken}}',
 			},

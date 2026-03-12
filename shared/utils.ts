@@ -12,9 +12,31 @@ export function buildRequestBody(data: IDataObject): IDataObject {
 	return body;
 }
 
-export function processResponse(response: any): any {
-	if (response && typeof response === 'object' && response.code === 1) {
-		return response.data || response;
+export function cleanBody(body: IDataObject): IDataObject {
+	const cleaned: IDataObject = {};
+	for (const key in body) {
+		if (body[key] !== undefined && body[key] !== null && body[key] !== '') {
+			cleaned[key] = body[key];
+		}
 	}
-	return response;
+	return cleaned;
+}
+
+export function processResponse(response: any, selector: string = ''): any {
+	if (!selector) {
+		return response;
+	}
+	
+	const paths = selector.split('.');
+	let result: any = response;
+	
+	for (const path of paths) {
+		if (result && typeof result === 'object' && path in result) {
+			result = result[path];
+		} else {
+			return response;
+		}
+	}
+	
+	return result;
 }

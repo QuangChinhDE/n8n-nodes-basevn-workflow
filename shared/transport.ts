@@ -11,15 +11,19 @@ export async function workflowApiRequest(
 	const domain = credentials.domain as string;
 	const accessToken = credentials.accessToken as string;
 
-	const options = {
-		method,
-		body: {
-			access_token_v2: accessToken,
-			...body,
-		},
-		url: `https://${domain}${endpoint}`,
-		json: true,
+	const requestBody = {
+		access_token_v2: accessToken,
+		...body,
 	};
 
-	return await this.helpers.request(options);
+	const options = {
+		method,
+		body: requestBody,
+		url: `https://${domain}${endpoint}`,
+		headers: {
+			'Content-Type': 'application/x-www-form-urlencoded',
+		},
+	};
+
+	return await this.helpers.httpRequest(options);
 }

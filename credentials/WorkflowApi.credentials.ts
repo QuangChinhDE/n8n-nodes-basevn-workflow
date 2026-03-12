@@ -45,6 +45,9 @@ export class WorkflowApi implements ICredentialType {
 			baseURL: '=https://{{$credentials.domain}}/extapi/v1',
 			url: '/workflow/list',
 			method: 'POST',
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded',
+			},
 			body: {
 				access_token_v2: '={{$credentials.accessToken}}',
 			},
